@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 import CardContainer from './components/CardContainer.vue'
 import OverlayModal from './components/OverlayModal.vue'
@@ -43,6 +43,7 @@ const addNote = (note) => {
       text: note,
       date: new Date(),
       backgroundColor: getRandomColor(),
+      status:false
     })
 
     validateNote.value = false
@@ -51,6 +52,12 @@ const addNote = (note) => {
 
   showModal.value = false;
 }
+
+
+function changeNoteStatus (id){
+  notes.value[id].status = !notes.value[id].status
+}
+
 
 
 </script>
@@ -74,6 +81,7 @@ const addNote = (note) => {
     </div>
 
     <CardContainer
+    @change-note-status="changeNoteStatus"
       @modal-handler="showModalHandler" 
       :modal="showModal"
       :notes="notes" 
